@@ -12,14 +12,14 @@ export default async (req, res) => {
     good = false,
   } = req.query;
 
-  post = parseBoolean(post);
-  view = parseBoolean(view);
-  good = parseBoolean(good);
+  const postBool = parseBool(post);
+  const viewBool = parseBool(view);
+  const goodBool = parseBool(good);
 
   try {
     if (!username) throw new Error(`username not found`);
-    if (post == false & view == false & good == false) throw new Error(`post/view/good not found`);
-    if (post + view + good > 1) throw new Error(`post/view/good duplicated`);
+    if (postBool == false & viewBool == false & goodBool == false) throw new Error(`post/view/good not found`);
+    if (postBool + viewBool + goodBool > 1) throw new Error(`post/view/good duplicated`);
 
     const resAPI = await requestAPI(username, limit);
     const userInfo = fetchUserInfo(resAPI);
@@ -31,9 +31,9 @@ export default async (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Cache-Control", `public, max-age=86400`);
 
-    if (post) { res.send(postNum) }
-    else if (view) { res.send(viewNum) }
-    else if (good) { res.send(goodNum) };
+    if (postBool) { res.send(postNum) }
+    else if (viewBool) { res.send(viewNum) }
+    else if (goodBool) { res.send(goodNum) };
 
   }
   catch (err) {
@@ -79,7 +79,7 @@ export default async (req, res) => {
   };
 };
 
-function parseBoolean(value) {
+function parseBool(value) {
   if (value === "true") {
     return true;
   } else if (value === "false") {
