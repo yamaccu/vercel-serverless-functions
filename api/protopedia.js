@@ -19,14 +19,11 @@ export default async (req, res) => {
     const viewNum = userInfo.reduce((sum, element) => sum + element.viewCount, 0);
     const goodNum = userInfo.reduce((sum, element) => sum + element.goodCount, 0);
 
-    res.setHeader("Content-Type", "text/html");
+    //res.setHeader("Content-Type", "text/html");
+    res.setHeader("Content-Type", "application/json");
     res.setHeader("Cache-Control", `public, max-age=86400`);
-
-    const ret = {
-      post: postNum,
-      view: viewNum,
-      good: goodNum
-    }
+    
+    const ret = {post:postNum,view:viewNum,good:goodNum}
 
     res.send(ret);
   }
