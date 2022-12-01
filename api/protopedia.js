@@ -7,14 +7,18 @@ export default async (req, res) => {
   const {
     username,
     limit = 100,
-    post,
-    view,
-    good,
+    post = false,
+    view = false,
+    good = false,
   } = req.query;
+
+  post = parseBoolean(post);
+  view = parseBoolean(view);
+  good = parseBoolean(good);
 
   try {
     if (!username) throw new Error(`username not found`);
-    if (!post | !view | !good) throw new Error(`post/view/good not found`);
+    if (post == false & view == false & good == false) throw new Error(`post/view/good not found`);
     if (post + view + good > 1) throw new Error(`post/view/good duplicated`);
 
     const resAPI = await requestAPI(username, limit);
@@ -74,3 +78,14 @@ export default async (req, res) => {
     return removeDuplicates;
   };
 };
+
+function parseBoolean(value) {
+  if (value === "true") {
+    return true;
+  } else if (value === "false") {
+    return false;
+  } else {
+    return value;
+  }
+};
+
