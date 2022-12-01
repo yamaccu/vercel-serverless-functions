@@ -22,6 +22,7 @@ export default async (req, res) => {
     //res.setHeader("Content-Type", "text/html");
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Cache-Control", `public, max-age=86400`);
+    res.setHeader("Access-Control-Allow-Origin", `*`);
     
     const ret = {post:postNum,view:viewNum,good:goodNum}
 
