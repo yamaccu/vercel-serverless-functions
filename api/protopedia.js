@@ -26,7 +26,7 @@ export default async (req, res) => {
     
     const ret = {post:postNum,view:viewNum,good:goodNum}
 
-    res.send(ret);
+    res.send(`https://img.shields.io/badge/Protopedia/Works-5%20posts-informational`);
   }
   catch (err) {
     res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`); // Don't cache error responses.
