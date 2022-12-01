@@ -20,7 +20,8 @@ export default async (req, res) => {
     const goodNum = userInfo.reduce((sum, element) => sum + element.goodCount, 0);
 
     //res.setHeader("Content-Type", "text/html");
-    res.setHeader("Content-Type", "application/json");
+    //res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "image/svg+xml");
     res.setHeader("Cache-Control", `public, max-age=86400`);
     res.setHeader("Access-Control-Allow-Origin", `*`);
 
