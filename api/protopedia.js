@@ -6,20 +6,11 @@ dotenv.config();
 export default async (req, res) => {
   const {
     username,
-    limit = 100,
-    post = false,
-    view = false,
-    good = false,
+    limit = 1000,
   } = req.query;
-
-  const postBool = parseBool(post);
-  const viewBool = parseBool(view);
-  const goodBool = parseBool(good);
 
   try {
     if (!username) throw new Error(`username not found`);
-    if (postBool == false & viewBool == false & goodBool == false) throw new Error(`post/view/good not found`);
-    if (postBool + viewBool + goodBool > 1) throw new Error(`post/view/good duplicated`);
 
     const resAPI = await requestAPI(username, limit);
     const userInfo = fetchUserInfo(resAPI);
@@ -31,10 +22,13 @@ export default async (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Cache-Control", `public, max-age=86400`);
 
-    if (postBool) { res.send(postNum) }
-    else if (viewBool) { res.send(viewNum) }
-    else if (goodBool) { res.send(goodNum) };
+    const ret = {
+      post: postNum,
+      view: viewNum,
+      good: goodNum
+    }
 
+    res.send(ret);
   }
   catch (err) {
     res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`); // Don't cache error responses.
@@ -78,14 +72,3 @@ export default async (req, res) => {
     return removeDuplicates;
   };
 };
-
-function parseBool(value) {
-  if (value === "true") {
-    return true;
-  } else if (value === "false") {
-    return false;
-  } else {
-    return value;
-  }
-};
-
