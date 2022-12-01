@@ -30,6 +30,7 @@ export default async (req, res) => {
 
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Cache-Control", `public, max-age=86400`);
+    res.setHeader("Access-Control-Allow-Origin", `*`);
 
     if (postBool) { res.send(postNum) }
     else if (viewBool) { res.send(viewNum) }
