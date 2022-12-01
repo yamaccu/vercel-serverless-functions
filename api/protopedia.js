@@ -7,9 +7,9 @@ export default async (req, res) => {
   const {
     username,
     limit = 100,
-    post = false,
-    view = false,
-    good = false,
+    post,
+    view,
+    good,
   } = req.query;
 
   try {
