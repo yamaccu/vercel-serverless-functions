@@ -37,19 +37,22 @@ export default async (req, res) => {
     if (postBool) 
     { 
       resShieldsio = await axios({
-        url: `https://img.shields.io/badge/ProtoPedia%20posts-${postNum}-informational`
+        url: `https://img.shields.io/badge/ProtoPedia%20posts-${postNum}-%2302ADBC`,
+        method: "get",
       });
     }
     else if (viewBool) 
     { 
       resShieldsio = await axios({
-        url: `https://img.shields.io/badge/ProtoPedia%20views-${viewNum}-informational`
+        url: `https://img.shields.io/badge/ProtoPedia%20views-${viewNum}-%2302ADBC`,
+        method: "get",
       });
     }
     else if (goodBool) 
     {
       resShieldsio = await axios({
-        url: `https://img.shields.io/badge/ProtoPedia%20good-${goodNum}-informational`
+        url: `https://img.shields.io/badge/ProtoPedia%20good-${goodNum}-%2302ADBC`,
+        method: "get",
       });
     };
     return res.send(resShieldsio.data);
@@ -106,3 +109,6 @@ function parseBool(value) {
     return value;
   }
 };
+
+
+
