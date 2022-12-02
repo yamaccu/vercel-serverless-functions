@@ -7,10 +7,19 @@ export default async (req, res) => {
   const {
     username,
     limit = 1000,
+    post = false,
+    view = false,
+    good = false,
   } = req.query;
+
+  const postBool = parseBool(post);
+  const viewBool = parseBool(view);
+  const goodBool = parseBool(good);
 
   try {
     if (!username) throw new Error(`username not found`);
+    if (postBool == false & viewBool == false & goodBool == false) throw new Error(`post/view/good not found`);
+    if (postBool + viewBool + goodBool > 1) throw new Error(`post/view/good duplicated`);
 
     const resAPI = await requestAPI(username, limit);
     const userInfo = fetchUserInfo(resAPI);
@@ -25,34 +34,96 @@ export default async (req, res) => {
     res.setHeader("Cache-Control", `public, max-age=86400`);
     res.setHeader("Access-Control-Allow-Origin", `*`);
 
-    const ret = { post: postNum, view: viewNum, good: goodNum }
-
-    res.send(`
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="20" role="img"
-    aria-label="Protopedia/Works: 5 posts">
-    <title>Protopedia/Works: 5 posts</title>
-    <linearGradient id="s" x2="0" y2="100%">
-        <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
-        <stop offset="1" stop-opacity=".1" />
-    </linearGradient>
-    <clipPath id="r">
-        <rect width="160" height="20" rx="3" fill="#fff" />
-    </clipPath>
-    <g clip-path="url(#r)">
-        <rect width="109" height="20" fill="#555" />
-        <rect x="109" width="51" height="20" fill="#007ec6" />
-        <rect width="160" height="20" fill="url(#s)" />
-    </g>
-    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif"
-        text-rendering="geometricPrecision" font-size="110">
-        <text aria-hidden="true" x="555" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
-            textLength="990">Protopedia/Works</text>
-        <text x="555" y="140" transform="scale(.1)" fill="#fff" textLength="990">Protopedia/Works</text>
-        <text aria-hidden="true" x="1335" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
-            textLength="410">5 posts</text>
-        <text x="1335" y="140" transform="scale(.1)" fill="#fff" textLength="410">5 posts</text>
-    </g>
-    </svg>`);
+    if (postBool) 
+    { 
+      res.send(`
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="20" role="img"
+      aria-label="Protopedia posts: ${postNum} posts">
+      <title>Protopedia posts: ${postNum} posts</title>
+      <linearGradient id="s" x2="0" y2="100%">
+          <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+          <stop offset="1" stop-opacity=".1" />
+      </linearGradient>
+      <clipPath id="r">
+          <rect width="160" height="20" rx="3" fill="#fff" />
+      </clipPath>
+      <g clip-path="url(#r)">
+          <rect width="109" height="20" fill="#555" />
+          <rect x="109" width="51" height="20" fill="#007ec6" />
+          <rect width="160" height="20" fill="url(#s)" />
+      </g>
+      <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif"
+          text-rendering="geometricPrecision" font-size="110">
+          <text aria-hidden="true" x="555" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
+              textLength="990">Protopedia posts</text>
+          <text x="555" y="140" transform="scale(.1)" fill="#fff" textLength="990">Protopedia posts</text>
+          <text aria-hidden="true" x="1335" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
+              textLength="410">${postNum} posts</text>
+          <text x="1335" y="140" transform="scale(.1)" fill="#fff" textLength="410">${postNum} posts</text>
+      </g>
+      </svg>
+      `)
+    }
+    else if (viewBool) 
+    { 
+      res.send(`
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="20" role="img"
+      aria-label="Protopedia views: ${viewNum} views">
+      <title>Protopedia views: ${viewNum} views</title>
+      <linearGradient id="s" x2="0" y2="100%">
+          <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+          <stop offset="1" stop-opacity=".1" />
+      </linearGradient>
+      <clipPath id="r">
+          <rect width="160" height="20" rx="3" fill="#fff" />
+      </clipPath>
+      <g clip-path="url(#r)">
+          <rect width="109" height="20" fill="#555" />
+          <rect x="109" width="51" height="20" fill="#007ec6" />
+          <rect width="160" height="20" fill="url(#s)" />
+      </g>
+      <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif"
+          text-rendering="geometricPrecision" font-size="110">
+          <text aria-hidden="true" x="555" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
+              textLength="990">Protopedia views</text>
+          <text x="555" y="140" transform="scale(.1)" fill="#fff" textLength="990">Protopedia views</text>
+          <text aria-hidden="true" x="1335" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
+              textLength="410">${viewNum} views</text>
+          <text x="1335" y="140" transform="scale(.1)" fill="#fff" textLength="410">${viewNum} views</text>
+      </g>
+      </svg>
+      `)
+    }
+    else if (goodBool) 
+    {
+      res.send(`
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="20" role="img"
+      aria-label="Protopedia good: ${goodNum} good">
+      <title>Protopedia good: ${goodNum} good</title>
+      <linearGradient id="s" x2="0" y2="100%">
+          <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+          <stop offset="1" stop-opacity=".1" />
+      </linearGradient>
+      <clipPath id="r">
+          <rect width="160" height="20" rx="3" fill="#fff" />
+      </clipPath>
+      <g clip-path="url(#r)">
+          <rect width="109" height="20" fill="#555" />
+          <rect x="109" width="51" height="20" fill="#007ec6" />
+          <rect width="160" height="20" fill="url(#s)" />
+      </g>
+      <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif"
+          text-rendering="geometricPrecision" font-size="110">
+          <text aria-hidden="true" x="555" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
+              textLength="990">Protopedia good</text>
+          <text x="555" y="140" transform="scale(.1)" fill="#fff" textLength="990">Protopedia good</text>
+          <text aria-hidden="true" x="1335" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)"
+              textLength="410">${goodNum} good</text>
+          <text x="1335" y="140" transform="scale(.1)" fill="#fff" textLength="410">${goodNum} good</text>
+      </g>
+      </svg>
+      `)
+    };
   }
   catch (err) {
     res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`); // Don't cache error responses.
@@ -95,4 +166,14 @@ export default async (req, res) => {
 
     return removeDuplicates;
   };
+};
+
+function parseBool(value) {
+  if (value === "true") {
+    return true;
+  } else if (value === "false") {
+    return false;
+  } else {
+    return value;
+  }
 };
