@@ -8,7 +8,7 @@ apiフォルダ配下がserverless functionsのAPIエンドポイントとなる
 
 ## protopedia.js
 
-ProtoPediaのユーザー情報を抽出してShields IOにインプットし、タグを出力  
+ProtoPediaのユーザー情報を抽出して[Shields.IO](https://shields.io/)にインプットし、タグを出力  
 ProtoPedia APIのlimit値はデフォルトで1000としている、limit=で変更可能。    
 
 ```HTML
