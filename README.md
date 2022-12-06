@@ -1,5 +1,5 @@
 vercel serverless functionsで色々やるレポジトリ（自分用）  
-apiフォルダ配下がserverless functionsのAPIエンドポイントとなる。  
+apiフォルダ配下がserverless functionsのAPIエンドポイントになっている。  
 
 ## index.js / pin.js / top-langs.js
 
@@ -9,7 +9,7 @@ apiフォルダ配下がserverless functionsのAPIエンドポイントとなる
 ## protopedia.js
 
 ProtoPediaのユーザー情報を抽出して[Shields.IO](https://shields.io/)にインプットし、タグを出力  
-ProtoPedia APIのlimit値はデフォルトで1000としている、limit=で変更可能。    
+ProtoPedia APIのlimit値はデフォルトで1000としている、limit=で変更可能。  
 
 ```HTML
 [![ProtoPedia posts]https://vercel-serverless-functions-henna.vercel.app/api/protopedia?username=<username>&post=true](https://protopedia.net/prototyper/<username>)
