@@ -22,6 +22,9 @@ export default async (req, res) => {
     if (postBool + viewBool + goodBool > 1) throw new Error(`post/view/good duplicated`);
 
     const resAPI = await requestAPI(username, limit);
+
+    if(resAPI == "") throw new Error(`no username`);
+
     const userInfo = fetchUserInfo(resAPI);
 
     const postNum = userInfo.length;
